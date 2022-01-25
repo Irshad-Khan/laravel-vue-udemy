@@ -5413,8 +5413,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.loading = true;
-    console.log(this.$route.params.id); // if we use resource classes then we use response.data.data we can remove 1 data freom resonse7
+    this.loading = true; // if we use resource classes then we use response.data.data we can remove 1 data freom resonse7
     // like response.data the we add  JsonResource::withoutWrapping(); in Boot method of AppServiceProvder
     // If we can not use in AppServiceProvider the use response.data.data
 
