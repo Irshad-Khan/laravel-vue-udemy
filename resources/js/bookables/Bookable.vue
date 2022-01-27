@@ -13,16 +13,21 @@
           <div v-else>Loading .......</div>
         </div>
       </div>
+      <ReviewList :BookableId="this.$route.params.id" />
     </div>
-    <div class="col-md-6"><Availability /></div>
+    <div class="col-md-6">
+      <Availability :BookableId="this.$route.params.id" />
+    </div>
   </div>
 </template>
 
 <script>
 import Availability from "./Availability";
+import ReviewList from "./ReviewList";
 export default {
   components: {
     Availability,
+    ReviewList,
   },
   data() {
     return {

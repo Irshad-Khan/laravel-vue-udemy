@@ -9,7 +9,7 @@
       <div class="form-group col-md-6">
         <label for="from">From</label>
         <input
-          type="text"
+          type="date"
           name="from"
           class="form-control form-control-sm"
           placeholder="start date"
@@ -28,7 +28,7 @@
       <div class="form-group col-md-6">
         <label for="to">To</label>
         <input
-          type="text"
+          type="date"
           name="to"
           class="form-control form-control-sm"
           placeholder="end date"
@@ -58,6 +58,9 @@
 
 <script>
 export default {
+  props: {
+    BookableId: String,
+  },
   data() {
     return {
       from: null,
@@ -73,7 +76,7 @@ export default {
       this.errors = null;
       axios
         .get(
-          `/api/bookables/${this.$route.params.id}/availability?from=${this.from}&to=${this.to}`
+          `/api/bookables/${this.BookableId}/availability?from=${this.from}&to=${this.to}`
         )
         .then((response) => {
           this.status = response.status;

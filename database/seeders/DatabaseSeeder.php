@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)->create();
         \App\Models\Bookable::factory(100)->create();
         \App\Models\Booking::factory(100)->create();
-        // $this->call(BookingSeeder::class);
+        $this->call(ReviewsTableSeeder::class);
     }
 }
