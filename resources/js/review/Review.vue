@@ -1,7 +1,10 @@
 <template>
   <div>
+    <Success v-if="success">
+      You have left a review, thank you very much
+    </Success>
     <FatalError v-if="error" />
-    <div class="row" v-else>
+    <div class="row" v-if="!success && !error">
       <div :class="[{ 'col-md-4': twoColumn }, { 'd-none': oneColumn }]">
         <div class="card">
           <div class="card-body">
@@ -79,6 +82,7 @@ export default {
       error: false,
       //   errors: null, This moved to maxins
       sending: false,
+      success: false,
     };
   },
   created() {
@@ -133,10 +137,11 @@ export default {
     submit() {
       this.errors = null;
       this.sending = true;
+      this.success = false;
       axios
         .post(`/api/reviews`, this.review)
         .then((response) => {
-          console.log(response);
+          this.success = 201 === response.status;
         })
         .catch((err) => {
           if (is422(err)) {
