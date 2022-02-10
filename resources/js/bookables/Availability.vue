@@ -17,13 +17,7 @@
           @keyup.enter="check()"
           :class="[{ 'is-invalid': this.errorFor('from') }]"
         />
-        <div
-          class="invalid-feedback"
-          v-for="(error, index) in this.errorFor('from')"
-          :key="'from' + index"
-        >
-          {{ error }}
-        </div>
+        <ValidationError :errors="errorFor('from')" />
       </div>
       <div class="form-group col-md-6">
         <label for="to">To</label>
@@ -36,13 +30,7 @@
           @keyup.enter="check()"
           :class="[{ 'is-invalid': this.errorFor('to') }]"
         />
-        <div
-          class="invalid-feedback"
-          v-for="(error, index) in this.errorFor('to')"
-          :key="'to' + index"
-        >
-          {{ error }}
-        </div>
+        <ValidationError :errors="errorFor('to')" />
       </div>
     </div>
     <button
@@ -57,7 +45,9 @@
 </template>
 
 <script>
+import validationErros from "./../shared/mixins/ValidationErros";
 export default {
+  mixins: [validationErros], // Mixin is use for reuse code
   props: {
     BookableId: String,
   },
@@ -67,7 +57,7 @@ export default {
       to: null,
       loading: false,
       status: null,
-      errors: null,
+      //   errors: null,
     };
   },
   methods: {
@@ -89,9 +79,9 @@ export default {
         })
         .then(() => (this.loading = false));
     },
-    errorFor(field) {
-      return this.hasErrors && this.errors[field] ? this.errors[field] : null;
-    },
+    // errorFor(field) {
+    //   return this.hasErrors && this.errors[field] ? this.errors[field] : null;
+    // },
   },
   computed: {
     hasErrors() {

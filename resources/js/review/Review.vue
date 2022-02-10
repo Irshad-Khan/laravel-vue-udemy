@@ -43,7 +43,9 @@
                 rows="10"
                 class="form-control"
                 v-model="review.content"
+                :class="[{ 'is-invalid': this.errorFor('content') }]"
               ></textarea>
+              <ValidationError :errors="errorFor('content')" />
             </div>
             <button
               class="btn btn-lg btn-primary btn-block mt-2"
@@ -61,7 +63,9 @@
 
 <script>
 import { is404, is422 } from "./../shared/utils/response";
+import validationErros from "./../shared/mixins/ValidationErros";
 export default {
+  mixins: [validationErros], // Mixin is use for reuse code
   data() {
     return {
       review: {
@@ -73,7 +77,7 @@ export default {
       loading: false,
       booking: null,
       error: false,
-      errors: null,
+      //   errors: null, This moved to maxins
       sending: false,
     };
   },
@@ -99,7 +103,6 @@ export default {
               this.error = !is404(err);
             });
         }
-
         this.error = true;
       })
       .then(() => {
@@ -107,6 +110,9 @@ export default {
       });
   },
   computed: {
+    hasErrors() {
+      return 422 === this.status && this.errors != null;
+    },
     alreadyReviewed() {
       return this.hasReview || !this.hasBooking;
     },
@@ -135,6 +141,7 @@ export default {
         .catch((err) => {
           if (is422(err)) {
             const errors = err.response.data.errors;
+            // _.size is lodash library
             if (errors["content"] && _.size(errors)) {
               this.errors = errors;
               return;
@@ -144,6 +151,12 @@ export default {
         })
         .then(() => (this.sending = false));
     },
+    // This Moved in Mixins folder for Code Reuseability
+    // errorFor(field) {
+    //   return null != this.errors && this.errors[field]
+    //     ? this.errors[field]
+    //     : null;
+    // },
   },
 };
 </script>
